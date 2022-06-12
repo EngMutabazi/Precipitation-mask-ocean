@@ -1,0 +1,221 @@
+SET MEMORY/SIZE = 1000
+  can data /all
+  can win /all
+  set win/new
+
+ SET WINDOW/ASPECT = 0.7/size=2
+
+  let Fig = $1%1%
+
+!=================================================================================
+  
+  If `Fig eq 1` then   !  Plot for 900 hPa at time 0600
+!================================================================================== 
+! go multi_view [rows],[columns], [xsize],[xstart],[xgap], [ysize],[ystart],[ygap],[prefix] 
+go multi_view    4,    4,        0.18,   0.04,   0.02,     0.18,    0.01,   0.05
+
+
+
+use "/home/user/Downloads/PROJECT/DATA/reucomponent/yearmeanpressure925at9:00.nc"         !d=1
+use "/home/user/Downloads/PROJECT/DATA/reucomponent/era_precip_climatology1.nc"                         !d=2
+
+!mask Ocean
+use "/home/user/Downloads/PROJECT/DATA/reucomponent/mask_topo.nc"                                      !d=3
+let topo=mask[d=3]
+let ua=U[d=1,GX=topo,GY=topo]
+let pr=PRE[d=2,GX=topo,GY=topo]
+let pre_topo=pr*topo
+let wind_topo=ua*topo
+
+set win /aspect=0.9/size=1.5
+
+!**** Set parameter for SHAKEY do_key, orient, klab_size, klab_inc, klab_dig, klab_len, kx_lo,     kx_hi, ky_lo, ky_hi
+        let do_key=1     !    0 if the key will not be displayed, 1 if it will (0)
+        let orient=1       !    0 for horizontal, 1 for vertical (0)
+        let klab_size=0.13  !    if non-zero: height of key label characters in inches (0)
+        let klab_inc=1     !    if non-zero: every klab_ince key level is labelled (0)
+        let klab_dig=2     !    number of sig digits in the key (3)
+        let klab_len=8     !    max characters in a key label (9)
+        let kx_lo=4.7  !    X coord of left side of key in inches
+        let kx_hi=5   !    X coord of right side of key in inches
+        let ky_lo=3   !    Y coord of bottom of key in inches
+        let ky_hi=10 !    Y coord of top of key in inche
+
+set view v11
+
+PPL AXLABP,0,-1 
+
+fill/nolab/nokey/pal=rnb2/lev=(2,20,1)(inf) pre_topo[x=-30:50,y=-40:40,l=1, k=1]*1000; go land 7
+contour/over/nolab wind_topo[x=-30:50,y=-40:40,k=1,l=1]  
+!LABEL xpos,ypos,center,angle,size text
+label/nouser 0.5,3,-10,0,0.20, @TR January
+
+!###################################
+set view v12
+PPL AXLABP,0,0     
+fill/nolab/nokey/pal=rnb2/lev=(2,20,1)(inf) pre_topo[x=-30:50,y=-40:40,l=2, k=1]*1000; go land 7
+contour/over/nolab/SIZE=0.14/SPACING=2/col=1 wind_topo[x=-30:50,y=-40:40,k=1,l=2]  
+!LABEL xpos,ypos,center,angle,size text
+!label/nouser 0.1,2.58,-10,0,0.12, @TR b
+label/nouser 0.5,3,-10,0,0.20, @TR February
+
+!##############################
+set view v13
+PPL AXLABP,0,0      
+
+fill/nolab/nokey/pal=rnb2/lev=(2,20,1)(inf) pre_topo[x=-30:50,y=-40:40,l=3, k=1]*1000; go land 7
+
+contour/over/nolab/SIZE=0.14/SPACING=2/col=1 wind_topo[x=-30:50,y=-40:40,k=1,l=3]
+!LABEL xpos,ypos,center,angle,size text
+label/nouser 1,3,-10,0,0.20, @TR March
+!##############################
+set view v14
+
+PPL AXLABP,0,0      
+fill/nolab/nokey/pal=rnb2/lev=(2,20,1)(inf) pre_topo[x=-30:50,y=-40:40,l=4, k=1]*1000; go land 7
+contour/over/nolab/SIZE=0.14/SPACING=2/col=1 wind_topo[x=-30:50,y=-40:40,k=1,l=4]
+!LABEL xpos,ypos,center,angle,size text
+label/nouser 1,3,-10,0,0.20, @TR April
+!label/nouser 0.1,2.58,-10,0,0.12, @TR d
+
+!#################################
+set view v21
+
+PPL AXLABP,0,-1     
+fill/nolab/nokey/pal=rnb2/lev=(2,20,1)(inf) pre_topo[x=-30:50,y=-40:40,l=5, k=1]*1000; go land 7
+contour/over/nolab/SIZE=0.14/SPACING=2/col=1 wind_topo[x=-30:50,y=-40:40,k=1,l=5]  
+!LABEL xpos,ypos,center,angle,size text
+label/nouser 1,3,-10,0,0.20, @TR May
+!label/nouser -0.6, 0.7, -50, 90, 0.12 @TR 200 hPa
+
+!#################################################
+set view v22
+PPL AXLABP,0,0     
+fill/nolab/nokey/pal=rnb2/lev=(2,20,1)(inf) pre_topo[x=-30:50,y=-40:40,l=6, k=1]*1000; go land 7
+contour/over/nolab/SIZE=0.14/SPACING=2/col=1 wind_topo[x=-30:50,y=-40:40,k=1,l=6] 
+!LABEL xpos,ypos,center,angle,size text
+label/nouser 1,3,-10,0,0.20, @TR June
+
+!###############################################
+set view v23
+PPL AXLABP,0,0      
+
+fill/nolab/nokey/pal=rnb2/lev=(2,20,1)(inf) pre_topo[x=-30:50,y=-40:40,l=7, k=1]*1000; go land 7
+contour/over/nolab/SIZE=0.14/SPACING=2/col=1 wind_topo[x=-30:50,y=-40:40,k=1,l=7]
+!LABEL xpos,ypos,center,angle,size text
+label/nouser 1,3,-10,0,0.20, @TR July
+!################################
+set view v24
+
+PPL AXLABP,0,0      
+fill/nolab/nokey/pal=rnb2/lev=(2,20,1)(inf) pre_topo[x=-30:50,y=-40:40,l=8, k=1]*1000; go land 7
+contour/over/nolab/SIZE=0.14/SPACING=2/col=1 wind_topo[x=-30:50,y=-40:40,k=1,l=8]
+!LABEL xpos,ypos,center,angle,size text
+label/nouser 0.8,3,-10,0,0.20, @TR August
+
+!###############################
+
+set view v31
+
+PPL AXLABP,-1,-1     
+fill/nolab/nokey/pal=rnb2/lev=(2,20,1)(inf) pre_topo[x=-30:50,y=-40:40,l=9, k=1]*1000; go land 7
+contour/over/nolab/SIZE=0.14/SPACING=2/col=1/LEVELS="(-52,52,1.5) del(0)" wind_topo[x=-30:50,y=-40:40,k=1,l=9]
+!LABEL xpos,ypos,center,angle,size text
+label/nouser 0.5,3,-10,0,0.20, @TR September
+
+!################################
+
+set view v32
+PPL AXLABP,-1,0     
+fill/nolab/nokey/pal=rnb2/lev=(2,20,1)(inf) pre_topo[x=-30:50,y=-40:40,l=10, k=1]*1000; go land 7
+contour/over/nolab/SIZE=0.14/SPACING=2/col=1 wind_topo[x=-30:50,y=-40:40,k=1,l=10]  
+label/nouser 0.8,3,-10,0,0.20, @TR October
+
+!##############################
+
+set view v33
+PPL AXLABP,-1,0      
+
+fill/nolab/nokey/pal=rnb2/lev=(2,20,1)(inf) pre_topo[x=-30:50,y=-40:40,l=11, k=1]*1000; go land 7
+contour/over/nolab/SIZE=0.14/SPACING=2/col=1  wind_topo[x=-30:50,y=-40:40,k=1,l=11]
+!LABEL xpos,ypos,center,angle,size text 
+label/nouser 0.5,3,-10,0,0.20, @TR November
+
+!################################
+set view v34
+
+PPL AXLABP,-1,0      
+fill/nolab/nokey/pal=rnb2/set_up/lev=(2,20,1)(inf) pre_topo[x=-30:50,y=-40:40,l=12, k=1]*1000
+PPL SHAKEY `do_key`, `orient`, `klab_size`, `klab_inc`, `klab_dig`, `klab_len`,`kx_lo`, `kx_hi`, `ky_lo`, `ky_hi` ;\
+  PPL fill; go land 7
+contour/over/nolab/SIZE=0.14/SPACING=2/col=1  wind_topo[x=-30:50,y=-40:40,k=1,l=12]
+!LABEL xpos,ypos,center,angle,size text
+label/nouser 0.5,3,-10,0,0.20, @TR December
+label/nouser 3.2,8.8,-10,0,0.15, @TR mm/day
+
+
+
+
+
+!=====================================================================================               
+
+  ELIf `Fig eq 2` then  !Plot for 900 hPa at time 09000 
+!=====================================================================================
+
+
+
+! go multi_view [rows],[columns], [xsize],[xstart],[xgap], [ysize],[ystart],[ygap],[prefix] 
+go multi_view    2,    2,        0.20,      0.04,   0.06,     0.22,    0.4,   0.08
+
+
+use "/home/user/Downloads/PROJECT/DATA/reucomponent/ucomponent_pressure650at6:00climatology.nc"                !d=1
+use "/home/user/Downloads/PROJECT/DATA/reucomponent/ucomponent_pressure650at9:00climatology.nc"                !d=2
+use "/home/user/Downloads/PROJECT/DATA/reucomponent/ucomponent_pressure700at6:00climatology.nc"                !d=3
+use "/home/user/Downloads/PROJECT/DATA/reucomponent/ucomponent_pressure700at9:00climatology.nc"                !d=4
+
+
+set view v11
+
+PPL AXLABP,0,-1 
+
+fill/nolab/pal=rnb2 usix[d=1,x=-30:50@ave,y=-40:40,k=1]
+contour/over/nolab usix[d=1,x=-30:50@ave,y=-40:40,k=1]  
+!LABEL xpos,ypos,center,angle,size text
+label/nouser 0.5,3.5,-10,0,0.20, @TR 650hPa at t0600
+
+!###################################
+set view v12
+PPL AXLABP,0,0     
+fill/nolab/pal=rnb2 UNINE[d=2,x=-30:50@ave,y=-40:40,k=1]
+contour/over/nolab UNINE[d=2,x=-30:50@ave,y=-40:40,k=1]  
+!LABEL xpos,ypos,center,angle,size text
+!label/nouser 0.1,2.58,-10,0,0.12, @TR b
+label/nouser 0.5,3.5,-10,0,0.20, @TR 650hPa at t0900
+
+!##############################
+set view v21
+PPL AXLABP,-1,-1      
+
+fill/nolab/pal=rnb2 WINDPRE[d=3,x=-30:50@ave,y=-40:40,k=1]
+contour/over/nolab WINDPRE[d=3,x=-30:50@ave,y=-40:40,k=1]  
+!LABEL xpos,ypos,center,angle,size text
+label/nouser 1,3.2,-10,0,0.20, @TR 700hPa at t0600
+!##############################
+set view v22
+PPL AXLABP,-1,0      
+fill/nolab/pal=rnb2 UCOMP[d=4,x=-30:50@ave,y=-40:40,k=1]
+contour/over/nolab UCOMP[d=4,x=-30:50@ave,y=-40:40,k=1]  
+!LABEL xpos,ypos,center,angle,size text
+label/nouser 0.5,3.2,-10,0,0.20, @TR 700hPa at t0900
+label/nouser 3.2,8.8,-10,0,0.15, @TR m/s
+
+
+endif
+!=================================================================================
+ exit
+!================================================================================== 
+
+!description : precipitation with masking ocean
+
+
+
